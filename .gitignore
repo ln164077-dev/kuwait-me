@@ -1,0 +1,17 @@
+# الأسرار ومتغيرات البيئة — لا تُرفع إلى المستودع
+.env
+.env.*
+!.env.example
+
+# الملف المُولَّد من متغيرات البيئة (يُبنى وقت النشر)
+assets/js/firebase-config.js
+
+# Netlify CLI
+.netlify
+node_modules/
+package-lock.json
+
+# ملفات مؤقتة
+*.log
+.agent_tmp/
+*.bak

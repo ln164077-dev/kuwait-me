@@ -1,0 +1,9 @@
+{
+  "name": "kuwait-me",
+  "version": "1.0.0",
+  "private": true,
+  "description": "موقع مزارع الثنيان — واجهة ثابتة تُبنى مع حقن أسرار Firebase من متغيرات البيئة",
+  "scripts": {
+    "build": "node scripts/generate-firebase-config.js"
+  }
+}

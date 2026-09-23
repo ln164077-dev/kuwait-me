@@ -4,14 +4,13 @@
 
 // 1️⃣ تهيئة Firebase
 // ─────────────────────────────────────────────────────────
+// الإعدادات تُقرأ من متغيرات البيئة وتُحقن في assets/js/firebase-config.js
+// ═══════════════════════════════════════════════════════════
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCw6S6m-6m-6m-6m-6m-6m-6m",
-  authDomain: "zain-kw-admin.firebaseapp.com",
-  databaseURL: "https://zain-kw-admin-default-rtdb.firebaseio.com",
-  projectId: "zain-kw-admin",
-  storageBucket: "zain-kw-admin.appspot.com"
-};
+const firebaseConfig = window.__FIREBASE_CONFIG__;
+if (!firebaseConfig || !firebaseConfig.apiKey) {
+  throw new Error('إعدادات Firebase غير متوفرة: اضبط متغيرات البيئة وابنِ الموقع.');
+}
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();

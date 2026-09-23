@@ -1,4 +1,5 @@
 [build]
+  command = "npm run build"
   publish = "."
 
 # صفحات منتجات SEO الثابتة: /product/<id>/<slug> → index.html في المجلد
@@ -36,6 +37,11 @@
 
 [[headers]]
   for = "/knet.html"
+  values = { Cache-Control = "no-cache, must-revalidate" }
+
+# ملف إعدادات Firebase المُولَّد: لا تخزين (يُبنى من متغيرات البيئة)
+[[headers]]
+  for = "/assets/js/firebase-config.js"
   values = { Cache-Control = "no-cache, must-revalidate" }
 
 # ملفات ثابتة: تخزين طويل

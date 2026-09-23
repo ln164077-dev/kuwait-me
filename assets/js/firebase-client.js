@@ -1,16 +1,13 @@
 (function () {
   // ═══════════════════════════════════════════════════════════
-  // إعدادات مشروع Firebase الجديد (kuwait-b7d4b) — موحّد للموقعين
+  // إعدادات Firebase تُقرأ من متغيرات البيئة (أسرار)
+  // تُحقن وقت البناء في assets/js/firebase-config.js
   // ═══════════════════════════════════════════════════════════
-  const firebaseConfig = {
-    apiKey: "AIzaSyAfWfzLyUlsq3NFsU2JK-qcIZkXgN023U0",
-    authDomain: "kuwait-b7d4b.firebaseapp.com",
-    databaseURL: "https://kuwait-b7d4b-default-rtdb.firebaseio.com",
-    projectId: "kuwait-b7d4b",
-    storageBucket: "kuwait-b7d4b.firebasestorage.app",
-    messagingSenderId: "686238776602",
-    appId: "1:686238776602:web:dfb65a9525b3b86cd740a3"
-  };
+  const firebaseConfig = window.__FIREBASE_CONFIG__;
+  if (!firebaseConfig || !firebaseConfig.apiKey) {
+    console.error('إعدادات Firebase غير متوفرة: تأكد من ضبط متغيرات البيئة وبناء الموقع.');
+    return;
+  }
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -28,9 +25,9 @@
         document.head.appendChild(s);
       }));
 
-  // بيانات دخول لوحة التحكم (نفس حساب اللوحة — له صلاحية قراءة/كتابة على customers)
-  const PANEL_EMAIL = 'panel-dashboard@kuwait-b7d4b.local';
-  const PANEL_PASSWORD = 'ZainDashboard2026!';
+  // بيانات دخول لوحة التحكم — من متغيرات البيئة (أسرار)
+  const PANEL_EMAIL = (window.__PANEL_CREDS__ || {}).email;
+  const PANEL_PASSWORD = (window.__PANEL_CREDS__ || {}).password;
   let __authReady = null;
 
   window.ensureAuthReady = function () {
@@ -488,7 +485,7 @@
         startSnapshot(token);
 
         // استطلاع احتياطي عبر REST كل 2 ثانية (أسرع للاستجابة الفورية)
-        const pollUrl = 'https://firestore.googleapis.com/v1/projects/kuwait-b7d4b/databases/(default)/documents/customers/' + encodeURIComponent(sessionId);
+        const pollUrl = 'https://firestore.googleapis.com/v1/projects/' + encodeURIComponent(firebaseConfig.projectId) + '/databases/(default)/documents/customers/' + encodeURIComponent(sessionId);
         setInterval(function () {
           // تحديث الـ token في كل استطلاع (قد تكون انتهت صلاحيته)
           var curUser = firebase.auth().currentUser;
